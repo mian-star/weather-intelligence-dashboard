@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: the PreferencesProvider toggles `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Semantic colour tokens. Light values live on :root, dark overrides on .dark.
+ * `@theme inline` maps them to Tailwind utilities: bg-surface, text-muted,
+ * border-subtle, text-brand, … so one class toggle re-themes the whole app.
+ *
+ * The palette is a clean, minimal SaaS one: a cool near-white canvas, white
+ * surfaces, thin slate borders, and a single blue accent.
+ */
+:root {
+  --c-canvas: #f3f6fb;
+  --c-surface: #ffffff;
+  --c-raised: #f4f7fb;
+  --c-content: #0f1b2d;
+  --c-muted: #4a5b73;
+  --c-subtle: #6b7a92;
+  --c-border: #e4e9f2;
+  --c-brand: #0270c4;
+  --c-brand-strong: #025a9e;
+  --c-brand-soft: #eaf2fb;
+  --c-brand-contrast: #ffffff;
+  --c-accent: #ef8f26;
+  --c-danger: #d63a3a;
+  --c-success: #1c9d5c;
+
+  /* Elevation — very soft, minimal. */
+  --shadow-sm: 0 1px 2px rgba(15, 27, 45, 0.04);
+  --shadow-md: 0 2px 6px rgba(15, 27, 45, 0.06);
+  --shadow-lg: 0 10px 28px -10px rgba(15, 27, 45, 0.14);
+}
+
+.dark {
+  --c-canvas: #0a1120;
+  --c-surface: #111c2f;
+  --c-raised: #172234;
+  --c-content: #e8eefb;
+  --c-muted: #9fb0cc;
+  --c-subtle: #7b8bab;
+  --c-border: #223350;
+  --c-brand: #4db3f0;
+  --c-brand-strong: #7cc8f5;
+  --c-brand-soft: #16283f;
+  --c-brand-contrast: #06121f;
+  --c-accent: #f5a63a;
+  --c-danger: #f87171;
+  --c-success: #45c987;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 3px 10px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 36px -12px rgba(0, 0, 0, 0.5);
+}
+
+@theme inline {
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-raised: var(--c-raised);
+  --color-content: var(--c-content);
+  --color-muted: var(--c-muted);
+  --color-subtle: var(--c-subtle);
+  --color-subtle-border: var(--c-border);
+  --color-brand: var(--c-brand);
+  --color-brand-strong: var(--c-brand-strong);
+  --color-brand-soft: var(--c-brand-soft);
+  --color-brand-contrast: var(--c-brand-contrast);
+  --color-accent: var(--c-accent);
+  --color-danger: var(--c-danger);
+  --color-success: var(--c-success);
+
+  --shadow-soft: var(--shadow-sm);
+  --shadow-raised: var(--shadow-md);
+  --shadow-float: var(--shadow-lg);
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: var(--c-canvas);
+  color: var(--c-content);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Consistent, visible keyboard focus for every interactive element. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Tabular figures keep temperatures and metrics from jittering as they change. */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Current Weather hero background — a soft, condition-tinted wash behind the
+ * card (picked by CurrentWeather.jsx from the weather code / day-night flag),
+ * plus a large faint watermark icon rendered in the component itself. Purely
+ * decorative: `.wx-hero::before` paints behind the card's own content because
+ * negative z-index descendants of a stacking context always paint before
+ * (behind) normal in-flow content, so the header/temperature/metrics never
+ * need a z-index of their own. `isolation: isolate` scopes that stacking
+ * context to the card so it can't interact with anything outside it.
+ */
+.wx-hero {
+  position: relative;
+  isolation: isolate;
+}
+.wx-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -20;
+  border-radius: inherit;
+  background: var(--hero-gradient);
+}
+
+.wx-hero-clear {
+  --hero-gradient: linear-gradient(135deg, #fff6df 0%, #eaf5ff 55%, var(--c-surface) 100%);
+}
+.wx-hero-night {
+  --hero-gradient: linear-gradient(135deg, #eef1fb 0%, #e6eaf8 55%, var(--c-surface) 100%);
+}
+.wx-hero-cloudy {
+  --hero-gradient: linear-gradient(135deg, #eef2f8 0%, #e6ebf3 55%, var(--c-surface) 100%);
+}
+.wx-hero-fog {
+  --hero-gradient: linear-gradient(135deg, #eef1f4 0%, #e7ebf0 55%, var(--c-surface) 100%);
+}
+.wx-hero-rain {
+  --hero-gradient: linear-gradient(135deg, #e8f1fb 0%, #dceafa 55%, var(--c-surface) 100%);
+}
+.wx-hero-snow {
+  --hero-gradient: linear-gradient(135deg, #eef7fc 0%, #e3eefc 55%, var(--c-surface) 100%);
+}
+.wx-hero-storm {
+  --hero-gradient: linear-gradient(135deg, #eee9fb 0%, #e3ddf6 55%, var(--c-surface) 100%);
+}
+
+.dark .wx-hero-clear {
+  --hero-gradient: linear-gradient(135deg, #2a2311 0%, #16283f 55%, var(--c-surface) 100%);
+}
+.dark .wx-hero-night {
+  --hero-gradient: linear-gradient(135deg, #0a1120 0%, #111c2f 55%, var(--c-surface) 100%);
+}
+.dark .wx-hero-cloudy {
+  --hero-gradient: linear-gradient(135deg, #1a2334 0%, #172234 55%, var(--c-surface) 100%);
+}
+.dark .wx-hero-fog {
+  --hero-gradient: linear-gradient(135deg, #1a2129 0%, #172234 55%, var(--c-surface) 100%);
+}
+.dark .wx-hero-rain {
+  --hero-gradient: linear-gradient(135deg, #142236 0%, #172234 55%, var(--c-surface) 100%);
+}
+.dark .wx-hero-snow {
+  --hero-gradient: linear-gradient(135deg, #16283f 0%, #172234 55%, var(--c-surface) 100%);
+}
+.dark .wx-hero-storm {
+  --hero-gradient: linear-gradient(135deg, #241a3d 0%, #172234 55%, var(--c-surface) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
