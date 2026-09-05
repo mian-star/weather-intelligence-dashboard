@@ -8,7 +8,7 @@ export function FavoritesPage() {
       variants={fadeUp}
       initial="hidden"
       animate="visible"
-      className="mx-auto max-w-4xl space-y-6"
+      className="mx-auto max-w-7xl space-y-6"
     >
       <header>
         <h1 className="text-2xl font-bold tracking-tight text-content sm:text-3xl">Favorites</h1>
