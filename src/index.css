@@ -27,6 +27,12 @@
   --c-danger: #d63a3a;
   --c-success: #1c9d5c;
 
+  /* Weather icon tints — one distinct, condition-appropriate colour per group. */
+  --c-icon-cloud: #4682b4;
+  --c-icon-fog: #1fa8a0;
+  --c-icon-snow: #3fb8d6;
+  --c-icon-storm: #7c5cd6;
+
   /* Elevation — very soft, minimal. */
   --shadow-sm: 0 1px 2px rgba(15, 27, 45, 0.04);
   --shadow-md: 0 2px 6px rgba(15, 27, 45, 0.06);
@@ -49,6 +55,11 @@
   --c-danger: #f87171;
   --c-success: #45c987;
 
+  --c-icon-cloud: #8fc1e8;
+  --c-icon-fog: #5ee0d1;
+  --c-icon-snow: #6fd3ec;
+  --c-icon-storm: #a48ef0;
+
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 3px 10px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 16px 36px -12px rgba(0, 0, 0, 0.5);
@@ -69,6 +80,11 @@
   --color-accent: var(--c-accent);
   --color-danger: var(--c-danger);
   --color-success: var(--c-success);
+
+  --color-icon-cloud: var(--c-icon-cloud);
+  --color-icon-fog: var(--c-icon-fog);
+  --color-icon-snow: var(--c-icon-snow);
+  --color-icon-storm: var(--c-icon-storm);
 
   --shadow-soft: var(--shadow-sm);
   --shadow-raised: var(--shadow-md);

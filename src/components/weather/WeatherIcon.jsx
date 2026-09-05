@@ -66,16 +66,17 @@ const CODE_ICONS = {
 };
 
 // Restrained, intentional colour per condition — a warm sun, a cool sky for
-// wet/cold weather, a neutral grey for clouds and fog.
+// wet/cold weather, a steel blue for clouds and a teal for fog (never a flat
+// grey, which reads as "uncoloured" next to the saturated sun/storm tints).
 const GROUP_TINT = {
   [WEATHER_GROUPS.CLEAR]: 'text-accent',
-  [WEATHER_GROUPS.CLOUDY]: 'text-subtle',
-  [WEATHER_GROUPS.FOG]: 'text-subtle',
+  [WEATHER_GROUPS.CLOUDY]: 'text-icon-cloud',
+  [WEATHER_GROUPS.FOG]: 'text-icon-fog',
   [WEATHER_GROUPS.DRIZZLE]: 'text-brand',
   [WEATHER_GROUPS.RAIN]: 'text-brand',
   [WEATHER_GROUPS.SHOWERS]: 'text-brand',
-  [WEATHER_GROUPS.SNOW]: 'text-brand-strong',
-  [WEATHER_GROUPS.THUNDERSTORM]: 'text-accent',
+  [WEATHER_GROUPS.SNOW]: 'text-icon-snow',
+  [WEATHER_GROUPS.THUNDERSTORM]: 'text-icon-storm',
   [WEATHER_GROUPS.UNKNOWN]: 'text-subtle',
 };
 
