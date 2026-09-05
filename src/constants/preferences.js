@@ -18,12 +18,18 @@ export const THEMES = {
   DARK: 'dark',
 };
 
+export const FORECAST_DISPLAYS = {
+  DETAILED: 'detailed',
+  COMPACT: 'compact',
+};
+
 export const STORAGE_KEYS = {
   FAVORITES: 'wid:favorites',
   SEARCH_HISTORY: 'wid:searchHistory',
   TEMPERATURE_UNIT: 'wid:temperatureUnit',
   WIND_UNIT: 'wid:windUnit',
   THEME: 'wid:theme',
+  FORECAST_DISPLAY: 'wid:forecastDisplay',
   LAST_LOCATION: 'wid:lastLocation',
 };
 

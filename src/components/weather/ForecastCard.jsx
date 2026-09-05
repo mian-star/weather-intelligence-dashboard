@@ -12,8 +12,11 @@ import { WeatherIcon } from './WeatherIcon';
  *
  * `range` is the {min,max} across the whole visible forecast — the shared scale
  * used to position this day's temperature bar so every card is comparable.
+ *
+ * `compact` (from the "Forecast display" preference) drops the precipitation /
+ * sunrise / sunset block for a shorter card — everything else is identical.
  */
-export function ForecastCard({ day, range }) {
+export function ForecastCard({ day, range, compact = false }) {
   const dayName = formatDayName(day.date);
   const dateLabel = formatCompactDate(day.date);
   const pop = day.precipitationProbability;
@@ -37,26 +40,28 @@ export function ForecastCard({ day, range }) {
         </span>
       </p>
       <TempRangeBar day={day} range={range} />
-      <dl className="mt-1 space-y-1.5 border-t border-subtle-border pt-2 text-xs text-muted">
-        <div className="flex items-center gap-1.5">
-          <Droplets className="h-3.5 w-3.5 text-brand" aria-hidden="true" />
-          <dt className="sr-only">Precipitation</dt>
-          <dd>
-            {day.precipitation ?? 0} mm
-            {pop !== null && pop !== undefined ? <span className="text-subtle"> · {pop}%</span> : null}
-          </dd>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <Sunrise className="h-3.5 w-3.5" aria-hidden="true" />
-          <dt className="sr-only">Sunrise</dt>
-          <dd>{formatTime(day.sunrise)}</dd>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <Sunset className="h-3.5 w-3.5" aria-hidden="true" />
-          <dt className="sr-only">Sunset</dt>
-          <dd>{formatTime(day.sunset)}</dd>
-        </div>
-      </dl>
+      {compact ? null : (
+        <dl className="mt-1 space-y-1.5 border-t border-subtle-border pt-2 text-xs text-muted">
+          <div className="flex items-center gap-1.5">
+            <Droplets className="h-3.5 w-3.5 text-brand" aria-hidden="true" />
+            <dt className="sr-only">Precipitation</dt>
+            <dd>
+              {day.precipitation ?? 0} mm
+              {pop !== null && pop !== undefined ? <span className="text-subtle"> · {pop}%</span> : null}
+            </dd>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Sunrise className="h-3.5 w-3.5" aria-hidden="true" />
+            <dt className="sr-only">Sunrise</dt>
+            <dd>{formatTime(day.sunrise)}</dd>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Sunset className="h-3.5 w-3.5" aria-hidden="true" />
+            <dt className="sr-only">Sunset</dt>
+            <dd>{formatTime(day.sunset)}</dd>
+          </div>
+        </dl>
+      )}
     </motion.div>
   );
 }

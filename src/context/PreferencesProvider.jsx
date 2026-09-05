@@ -4,6 +4,7 @@ import {
   THEMES,
   TEMPERATURE_UNITS,
   WIND_UNITS,
+  FORECAST_DISPLAYS,
 } from '../constants/preferences';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { PreferencesContext } from './preferencesContext';
@@ -33,6 +34,10 @@ export function PreferencesProvider({ children }) {
     STORAGE_KEYS.THEME,
     systemPrefersDark() ? THEMES.DARK : THEMES.LIGHT,
   );
+  const [forecastDisplay, setForecastDisplay] = useLocalStorage(
+    STORAGE_KEYS.FORECAST_DISPLAY,
+    FORECAST_DISPLAYS.DETAILED,
+  );
 
   useEffect(() => {
     const root = document.documentElement;
@@ -57,9 +62,11 @@ export function PreferencesProvider({ children }) {
       temperatureUnit,
       windUnit,
       theme,
+      forecastDisplay,
       setTemperatureUnit,
       setWindUnit,
       setTheme,
+      setForecastDisplay,
       toggleTemperatureUnit,
       toggleTheme,
     }),
@@ -67,9 +74,11 @@ export function PreferencesProvider({ children }) {
       temperatureUnit,
       windUnit,
       theme,
+      forecastDisplay,
       setTemperatureUnit,
       setWindUnit,
       setTheme,
+      setForecastDisplay,
       toggleTemperatureUnit,
       toggleTheme,
     ],

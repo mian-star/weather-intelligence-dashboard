@@ -6,6 +6,8 @@ import {
   FORECAST_FILTERS,
   FORECAST_SORTS,
 } from '../../constants/forecast';
+import { FORECAST_DISPLAYS } from '../../constants/preferences';
+import { usePreferences } from '../../context/preferencesContext';
 import { staggerParent } from '../../utils/motion';
 import { applyForecastFilter, sortForecastDays } from '../../utils/forecast';
 import { Card } from '../common/Card';
@@ -26,9 +28,11 @@ import { ForecastControls } from './ForecastControls';
  * even when only an unrelated parent state (e.g. the theme) changed.
  */
 export function Forecast({ days }) {
+  const { forecastDisplay } = usePreferences();
   const [filter, setFilter] = useState(FORECAST_FILTERS.ALL);
   const [hotThreshold, setHotThreshold] = useState(String(DEFAULT_HOT_THRESHOLD_C));
   const [sort, setSort] = useState(FORECAST_SORTS.DEFAULT);
+  const compact = forecastDisplay === FORECAST_DISPLAYS.COMPACT;
 
   const visibleDays = useMemo(() => {
     const threshold = Number(hotThreshold);
@@ -81,7 +85,7 @@ export function Forecast({ days }) {
           className="-mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-5 xl:grid-cols-7"
         >
           {visibleDays.map((day) => (
-            <ForecastCard key={day.date} day={day} range={range} />
+            <ForecastCard key={day.date} day={day} range={range} compact={compact} />
           ))}
         </motion.div>
       )}
