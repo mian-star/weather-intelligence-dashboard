@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SEARCH_HISTORY_LIMIT, STORAGE_KEYS } from '../constants/preferences';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { sameLocation, toStoredLocation } from '../utils/location';
 import { LocationContext } from './locationContext';
+import { usePreferences } from './preferencesContext';
 
 /**
  * Owns:
@@ -13,11 +14,20 @@ import { LocationContext } from './locationContext';
  * Favorites and history are kept as two separate arrays on purpose: they are
  * different concepts (intentional saves vs. recent activity).
  * All three are persisted to LocalStorage via useLocalStorage.
+ *
+ * `selectedLocation` is the one exception: whether it persists across a
+ * refresh is itself a preference ("Remember last location", Settings page),
+ * so it lives in plain component state and is only mirrored to LocalStorage
+ * when that preference is on.
  */
 export function LocationProvider({ children }) {
-  const [selectedLocation, setSelectedLocation] = useLocalStorage(
+  const { rememberLastLocation } = usePreferences();
+  const [storedLastLocation, setStoredLastLocation] = useLocalStorage(
     STORAGE_KEYS.LAST_LOCATION,
     null,
+  );
+  const [selectedLocation, setSelectedLocationState] = useState(() =>
+    rememberLastLocation ? storedLastLocation : null,
   );
   const [favorites, setFavorites] = useLocalStorage(STORAGE_KEYS.FAVORITES, []);
   const [searchHistory, setSearchHistory] = useLocalStorage(
@@ -42,11 +52,17 @@ export function LocationProvider({ children }) {
   const selectLocation = useCallback(
     (location) => {
       const entry = toStoredLocation(location);
-      setSelectedLocation(entry);
+      setSelectedLocationState(entry);
+      if (rememberLastLocation) setStoredLastLocation(entry);
       addToHistory(entry);
     },
-    [setSelectedLocation, addToHistory],
+    [rememberLastLocation, setStoredLastLocation, addToHistory],
   );
+
+  // Turning the preference off also forgets whatever was already on disk.
+  useEffect(() => {
+    if (!rememberLastLocation) setStoredLastLocation(null);
+  }, [rememberLastLocation, setStoredLastLocation]);
 
   const addFavorite = useCallback(
     (location) => {

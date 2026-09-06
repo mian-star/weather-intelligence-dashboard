@@ -38,6 +38,10 @@ export function PreferencesProvider({ children }) {
     STORAGE_KEYS.FORECAST_DISPLAY,
     FORECAST_DISPLAYS.DETAILED,
   );
+  const [rememberLastLocation, setRememberLastLocation] = useLocalStorage(
+    STORAGE_KEYS.REMEMBER_LAST_LOCATION,
+    true,
+  );
 
   useEffect(() => {
     const root = document.documentElement;
@@ -63,10 +67,12 @@ export function PreferencesProvider({ children }) {
       windUnit,
       theme,
       forecastDisplay,
+      rememberLastLocation,
       setTemperatureUnit,
       setWindUnit,
       setTheme,
       setForecastDisplay,
+      setRememberLastLocation,
       toggleTemperatureUnit,
       toggleTheme,
     }),
@@ -75,10 +81,12 @@ export function PreferencesProvider({ children }) {
       windUnit,
       theme,
       forecastDisplay,
+      rememberLastLocation,
       setTemperatureUnit,
       setWindUnit,
       setTheme,
       setForecastDisplay,
+      setRememberLastLocation,
       toggleTemperatureUnit,
       toggleTheme,
     ],

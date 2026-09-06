@@ -54,6 +54,7 @@ export function DashboardPage() {
     useLocationSearch();
   const { weather, isLoading, error, refetch } = useWeather(selectedLocation);
   const [urlError, setUrlError] = useState('');
+  const [searchResetToken, setSearchResetToken] = useState(0);
 
   // Choose a location and reflect it in the URL so the view is shareable.
   // Named results (from geocoding) get ?city=; coordinate-only results (a
@@ -62,6 +63,7 @@ export function DashboardPage() {
     (location) => {
       selectLocation(location);
       reset();
+      setSearchResetToken((token) => token + 1); // clears the SearchBar's typed text
       setUrlError('');
       const params = location?.country
         ? { city: location.name }
@@ -127,7 +129,11 @@ export function DashboardPage() {
       {/* Search */}
       <Card as="section" aria-label="Location search" className="md:col-span-12">
         <div className="relative">
-          <SearchBar onSearch={runSearch} autoFocus={!selectedLocation} />
+          <SearchBar
+            key={searchResetToken}
+            onSearch={runSearch}
+            autoFocus={!selectedLocation}
+          />
           <SearchResults
             results={results}
             isLoading={isSearching}

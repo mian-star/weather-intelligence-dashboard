@@ -26,8 +26,13 @@ export function Statistics({ days }) {
   const { temperatureUnit, windUnit } = usePreferences();
   const stats = useMemo(() => calculateStatistics(days), [days]);
 
-  const hottestDay = days.find((day) => day.tempMax === stats.highestTemp);
-  const coldestDay = days.find((day) => day.tempMin === stats.lowestTemp);
+  // Guard against `stats.highestTemp`/`lowestTemp` being null (every day
+  // missing that field) — without this, `day.tempMax === null` would match
+  // the first day and falsely label it as the hottest/coldest.
+  const hottestDay =
+    stats.highestTemp !== null ? days.find((day) => day.tempMax === stats.highestTemp) : undefined;
+  const coldestDay =
+    stats.lowestTemp !== null ? days.find((day) => day.tempMin === stats.lowestTemp) : undefined;
 
   const tiles = [
     {

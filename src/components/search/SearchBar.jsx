@@ -12,6 +12,10 @@ import { isValidSearchTerm, normaliseSearchTerm } from '../../utils/validation';
  * - A debounced copy of the term triggers `onSearch` automatically once it is
  *   at least 3 characters, so we search as the user pauses typing without
  *   firing a request on every keystroke.
+ * - The typed text is cleared once a result has been selected by giving this
+ *   component a fresh `key` from the parent (the recommended React pattern
+ *   for resetting a component's state — see react.dev/learn/you-might-not-need-an-effect
+ *   — rather than an effect that calls setState on a "reset" prop change).
  */
 export function SearchBar({ onSearch, autoFocus = false }) {
   const [term, setTerm] = useState('');

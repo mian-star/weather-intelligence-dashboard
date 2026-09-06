@@ -31,6 +31,7 @@ export const STORAGE_KEYS = {
   THEME: 'wid:theme',
   FORECAST_DISPLAY: 'wid:forecastDisplay',
   LAST_LOCATION: 'wid:lastLocation',
+  REMEMBER_LAST_LOCATION: 'wid:rememberLastLocation',
 };
 
 export const SEARCH_HISTORY_LIMIT = 5;

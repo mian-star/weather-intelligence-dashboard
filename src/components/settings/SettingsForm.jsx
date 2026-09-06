@@ -9,6 +9,7 @@ import {
 import { usePreferences } from '../../context/preferencesContext';
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
+import { Checkbox } from '../common/Checkbox';
 import { Select } from '../common/Select';
 import { SectionHeading } from '../common/SectionHeading';
 import { ToggleGroup } from '../common/ToggleGroup';
@@ -54,12 +55,14 @@ export function SettingsForm() {
       windUnit: preferences.windUnit,
       theme: preferences.theme,
       forecastDisplay: preferences.forecastDisplay,
+      rememberLastLocation: preferences.rememberLastLocation,
     }),
     [
       preferences.temperatureUnit,
       preferences.windUnit,
       preferences.theme,
       preferences.forecastDisplay,
+      preferences.rememberLastLocation,
     ],
   );
 
@@ -88,6 +91,7 @@ export function SettingsForm() {
     preferences.setWindUnit(draft.windUnit);
     preferences.setTheme(draft.theme);
     preferences.setForecastDisplay(draft.forecastDisplay);
+    preferences.setRememberLastLocation(draft.rememberLastLocation);
     setStatus({ type: 'success', message: 'Preferences saved.' });
   };
 
@@ -152,6 +156,14 @@ export function SettingsForm() {
             onChange={updateField('windUnit')}
             options={WIND_OPTIONS}
             className="max-w-xs"
+          />
+          <Checkbox
+            id="settings-remember-location"
+            label="Remember last location"
+            description="Reopen the app on the last location you viewed."
+            checked={draft.rememberLastLocation}
+            onChange={updateField('rememberLastLocation')}
+            className="mt-4"
           />
         </SettingsSection>
 
