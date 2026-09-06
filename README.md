@@ -111,7 +111,7 @@ src/
     settings/    SettingsForm
   hooks/         useLocalStorage, useWeather, useLocationSearch,
                  useGeolocation, useDebouncedValue
-  services/      openMeteoClient (fetch + typed errors), geocodingService,
+  services/      openMeteoClient (fetch + error handling), geocodingService,
                  forecastService
   utils/         temperature, wind, weatherCodes, statistics, datetime,
                  forecast (filter/sort), validation, storage, transform, location
